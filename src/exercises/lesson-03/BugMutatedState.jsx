@@ -13,8 +13,8 @@ export default function BugMutatedState() {
   let [count, setCount] = useState(0);
 
   function handleAdd() {
-    count++;
-    setCount(count);
+    //count++;
+    setCount(count + 1);
   }
 
   return (
@@ -26,4 +26,7 @@ export default function BugMutatedState() {
 }
 
 // Explanation:
-// (Write your explanation here)
+/* 
+  The count is being altered outside of the state, which is not right, therefore the count needs to be altered using the setCount function
+  in order to properly change the state.
+*/
