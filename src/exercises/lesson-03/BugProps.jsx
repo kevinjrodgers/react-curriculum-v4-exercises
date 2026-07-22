@@ -29,4 +29,8 @@ export default function BugProps({ name = 'friend' }) {
 }
 
 // Explanation:
-// (Write your explanation here)
+/* 
+  The message variable is initialized as a string with the name variable concatenated at the end of the string. It is then displayed within 
+  a <p> tag. While this can work, React won't track the message variable since it's not set as a state. To fix this, a message state is initialized
+  with the name prop and the handleChange function changes/sets the state to a new value.
+*/
