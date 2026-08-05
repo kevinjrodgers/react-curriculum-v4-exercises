@@ -2,37 +2,40 @@ import styles from './SnackForm.module.css';
 import { useState, useEffect } from 'react';
 
 export default function SnackForm({
-  addSnack,
-  editingSnack,
-  cancelEdit,
-  updateSnack,
+  addSnack, // Adds snack to end of list, gives an id to snack
+  editingSnack, // A bool
+  cancelEdit, // Sets editingSnack to null
+  updateSnack, // Finds snack based on id and updates it
   className,
 }) {
   const isEditing = Boolean(editingSnack);
   const [name, setName] = useState('');
   const [rating, setRating] = useState('');
-  const [touched, isTouched] = useState({ name: false, rating: false });
+  const [touched, setTouched] = useState({ name: false, rating: false });
 
   useEffect(() => {
-    if (isEditing === true) {
+    if (editingSnack) {
       setName(editingSnack.name);
+      setRating(editingSnack.rating);
     } else {
       setName('');
+      setRating('');
     }
   }, [editingSnack]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
+    //const formData = new FormData(e.target);
     //const name = formData.get('name');
-    const rating = formData.get('rating');
+    //const rating = formData.get('rating');
 
     if (isEditing) {
       updateSnack(editingSnack.id, name, rating);
     } else {
       addSnack(name, rating);
       setName('');
-      e.target.reset();
+      setRating('');
+      //e.target.reset();
     }
   }
 
@@ -52,6 +55,7 @@ export default function SnackForm({
           name="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          onFocus={() => setTouched((prev) => ({ ...prev, name: true }))}
           required
           className={styles['field-input']}
           placeholder="Enter snack name"
@@ -63,7 +67,9 @@ export default function SnackForm({
         <input
           type="number"
           name="rating"
-          defaultValue={isEditing ? editingSnack.rating : ''}
+          value={rating}
+          onChange={(e) => setRating(e.target.value)}
+          onFocus={() => setTouched((prev) => ({ ...prev, rating: true }))}
           required
           min="1"
           max="5"
