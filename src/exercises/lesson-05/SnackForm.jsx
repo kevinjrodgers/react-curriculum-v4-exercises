@@ -56,13 +56,13 @@ export default function SnackForm({
 
   function getNameError() {
     if (validateName() !== true && touched.name === true) {
-      return 'AYO PUT A NAME BRO';
+      return 'Please enter a valid number';
     }
   }
 
   function getRatingError() {
     if (validateRating() !== true && touched.rating === true) {
-      return 'WTF PUT A NUMBER UP';
+      return 'Please enter a valid rating';
     }
   }
 
@@ -86,7 +86,6 @@ export default function SnackForm({
           className={styles['field-input']}
           placeholder="Enter snack name"
         />
-        {/*{validateName() ? '' : <p>Snack name is required</p>}*/}
         {getNameError() && <div className={styles.error}>{getNameError()}</div>}
       </div>
 
@@ -103,7 +102,6 @@ export default function SnackForm({
           className={styles['field-input']}
           placeholder="Rate 1-5"
         />
-        {/*{validateRating() ? '' : <p>Enter in a valid rating</p>}*/}
         {getRatingError() && (
           <div className={styles.error}>{getRatingError()}</div>
         )}
