@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import StudentButton from './components/StudentButton.jsx';
 import StudentTask from './components/StudenTask.jsx';
+import taskFilterer from './utils/taskFilterer.js';
 
 export default function StudentWork() {
   const [tasks, setTasks] = useState([]);
@@ -23,16 +24,10 @@ export default function StudentWork() {
 
   // #2: Filtering logic inside component //Helper function
   let visibleTasks = tasks;
-  if (filter === 'completed') {
-    visibleTasks = tasks.filter((task) => task.completed);
-  }
-  if (filter === 'pending') {
-    visibleTasks = tasks.filter((task) => !task.completed);
-  }
-
   if (loading) {
     return <p>Loading tasks...</p>;
-    m;
+  } else {
+    visibleTasks = taskFilterer(visibleTasks, filter);
   }
 
   return (
@@ -42,9 +37,6 @@ export default function StudentWork() {
 
       {/* #4: Repeated button JSX */}
       <div>
-        {/*<button onClick={() => setFilter('all')}>All</button>*/}
-        {/*<button onClick={() => setFilter('completed')}>Completed</button>*/}
-        {/*<button onClick={() => setFilter('pending')}>Pending</button>*/}
         <StudentButton filterType="all" setFilter={setFilter}></StudentButton>
         <StudentButton
           filterType="completed"
@@ -54,17 +46,12 @@ export default function StudentWork() {
           filterType="pending"
           setFilter={setFilter}
         ></StudentButton>
-
         <p>Current filter: {filter}</p>
       </div>
 
       {/* #5: Inline list rendering */}
       <ul>
         {visibleTasks.map((task) => (
-          /*<li key={task.id}>
-            {task.title} {task.completed ? '✅' : '⏳'}
-          </li>
-          */
           <StudentTask key={task.id} task={task}></StudentTask>
         ))}
       </ul>
