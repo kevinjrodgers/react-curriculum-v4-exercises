@@ -2,25 +2,11 @@ import { useEffect, useState } from 'react';
 import StudentButton from './components/StudentButton.jsx';
 import StudentTask from './components/StudenTask.jsx';
 import taskFilterer from './utils/taskFilterer.js';
+import { useStudentArray } from './hooks/useStudentArray.jsx';
 
 export default function StudentWork() {
-  const [tasks, setTasks] = useState([]);
+  const { tasks, loading } = useStudentArray(); //  #1: Data fetching + state + UI logic all mixed together // Custom hook
   const [filter, setFilter] = useState('all');
-  const [loading, setLoading] = useState(true);
-
-  //  #1: Data fetching + state + UI logic all mixed together // Custom hook
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setTasks([
-        { id: 1, title: 'Learn React', completed: true },
-        { id: 2, title: 'Refactor code', completed: false },
-        { id: 3, title: 'Organize files', completed: false },
-      ]);
-      setLoading(false);
-    }, 500);
-
-    return () => clearTimeout(timeout);
-  }, []);
 
   // #2: Filtering logic inside component //Helper function
   let visibleTasks = tasks;
