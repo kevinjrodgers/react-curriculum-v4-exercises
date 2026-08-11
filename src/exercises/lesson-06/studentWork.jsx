@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
+import StudentButton from './components/StudentButton.jsx';
+import StudentTask from './components/StudenTask.jsx';
 
 export default function StudentWork() {
   const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(true);
 
-  //  #1: Data fetching + state + UI logic all mixed together
+  //  #1: Data fetching + state + UI logic all mixed together // Custom hook
   useEffect(() => {
     const timeout = setTimeout(() => {
       setTasks([
@@ -19,7 +21,7 @@ export default function StudentWork() {
     return () => clearTimeout(timeout);
   }, []);
 
-  // #2: Filtering logic inside component
+  // #2: Filtering logic inside component //Helper function
   let visibleTasks = tasks;
   if (filter === 'completed') {
     visibleTasks = tasks.filter((task) => task.completed);
@@ -30,6 +32,7 @@ export default function StudentWork() {
 
   if (loading) {
     return <p>Loading tasks...</p>;
+    m;
   }
 
   return (
@@ -39,18 +42,30 @@ export default function StudentWork() {
 
       {/* #4: Repeated button JSX */}
       <div>
-        <button onClick={() => setFilter('all')}>All</button>
-        <button onClick={() => setFilter('completed')}>Completed</button>
-        <button onClick={() => setFilter('pending')}>Pending</button>
+        {/*<button onClick={() => setFilter('all')}>All</button>*/}
+        {/*<button onClick={() => setFilter('completed')}>Completed</button>*/}
+        {/*<button onClick={() => setFilter('pending')}>Pending</button>*/}
+        <StudentButton filterType="all" setFilter={setFilter}></StudentButton>
+        <StudentButton
+          filterType="completed"
+          setFilter={setFilter}
+        ></StudentButton>
+        <StudentButton
+          filterType="pending"
+          setFilter={setFilter}
+        ></StudentButton>
+
         <p>Current filter: {filter}</p>
       </div>
 
       {/* #5: Inline list rendering */}
       <ul>
         {visibleTasks.map((task) => (
-          <li key={task.id}>
+          /*<li key={task.id}>
             {task.title} {task.completed ? '✅' : '⏳'}
           </li>
+          */
+          <StudentTask key={task.id} task={task}></StudentTask>
         ))}
       </ul>
     </div>
