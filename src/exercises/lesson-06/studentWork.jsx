@@ -1,35 +1,19 @@
 import { useEffect, useState } from 'react';
+import StudentButton from './components/StudentButton.jsx';
+import StudentTask from './components/StudenTask.jsx';
+import taskFilterer from './utils/taskFilterer.js';
+import { useStudentArray } from './hooks/useStudentArray.jsx';
 
 export default function StudentWork() {
-  const [tasks, setTasks] = useState([]);
+  const { tasks, loading } = useStudentArray(); //  #1: Data fetching + state + UI logic all mixed together // Custom hook
   const [filter, setFilter] = useState('all');
-  const [loading, setLoading] = useState(true);
 
-  //  #1: Data fetching + state + UI logic all mixed together
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setTasks([
-        { id: 1, title: 'Learn React', completed: true },
-        { id: 2, title: 'Refactor code', completed: false },
-        { id: 3, title: 'Organize files', completed: false },
-      ]);
-      setLoading(false);
-    }, 500);
-
-    return () => clearTimeout(timeout);
-  }, []);
-
-  // #2: Filtering logic inside component
+  // #2: Filtering logic inside component //Helper function
   let visibleTasks = tasks;
-  if (filter === 'completed') {
-    visibleTasks = tasks.filter((task) => task.completed);
-  }
-  if (filter === 'pending') {
-    visibleTasks = tasks.filter((task) => !task.completed);
-  }
-
   if (loading) {
     return <p>Loading tasks...</p>;
+  } else {
+    visibleTasks = taskFilterer(visibleTasks, filter);
   }
 
   return (
@@ -39,18 +23,22 @@ export default function StudentWork() {
 
       {/* #4: Repeated button JSX */}
       <div>
-        <button onClick={() => setFilter('all')}>All</button>
-        <button onClick={() => setFilter('completed')}>Completed</button>
-        <button onClick={() => setFilter('pending')}>Pending</button>
+        <StudentButton filterType="all" setFilter={setFilter}></StudentButton>
+        <StudentButton
+          filterType="completed"
+          setFilter={setFilter}
+        ></StudentButton>
+        <StudentButton
+          filterType="pending"
+          setFilter={setFilter}
+        ></StudentButton>
         <p>Current filter: {filter}</p>
       </div>
 
       {/* #5: Inline list rendering */}
       <ul>
         {visibleTasks.map((task) => (
-          <li key={task.id}>
-            {task.title} {task.completed ? '✅' : '⏳'}
-          </li>
+          <StudentTask key={task.id} task={task}></StudentTask>
         ))}
       </ul>
     </div>
