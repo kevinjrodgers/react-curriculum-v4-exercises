@@ -22,8 +22,8 @@ export default function FetchOnRender() {
     });
   }, []);
 
-  console.log('GULP: ' + posts);
-  console.log(posts[0]);
+  //console.log('GULP: ' + posts);
+  //console.log(posts[0]);
 
   return (
     <div className="root">
