@@ -5,6 +5,7 @@ import {
 import styles from './BookCard.module.css';
 import { memo } from 'react';
 
+// Create memo
 const BookCard = memo(function BookCard({
   book,
   isFavorite,
