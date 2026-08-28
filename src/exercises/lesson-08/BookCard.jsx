@@ -20,6 +20,7 @@ const BookCard = memo(function BookCard({
         count={count}
         className={styles.renderCounter}
       />
+      <p>Test {count}</p>
       <h3 className={styles.cardTitle}>{book.title}</h3>
       <p className={styles.cardAuthor}>
         by {book.author} ({book.publishYear})
