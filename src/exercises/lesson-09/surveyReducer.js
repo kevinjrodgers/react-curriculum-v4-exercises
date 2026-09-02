@@ -94,16 +94,47 @@ export function surveyReducer(state, action) {
     // ===== END MVP ACTIONS =========
     // ===== STUDENT IMPLEMENTATION TASKS =====
 
-    case 'UPDATE_QUESTION_TEXT':
+    case 'UPDATE_QUESTION_TEXT': {
       // TODO: Implement this action
       console.log('TODO: Implement UPDATE_QUESTION_TEXT action');
-      return state;
-
-    case 'DELETE_QUESTION':
+      const { id, newText } = action.payload;
+      return {
+        ...state,
+        questions: state.questions.map((element) => {
+          if (element.id === id) {
+            return {
+              ...element,
+              question: newText,
+            };
+          } else {
+            return element;
+          }
+        }),
+      };
+    }
+    case 'DELETE_QUESTION': {
       // TODO: Implement this action
       console.log('TODO: Implement DELETE_QUESTION action');
-      return state;
+      const { id } = action.payload;
+      return {
+        ...state,
+        questions: state.questions.filter((element) => element.id !== id),
+        ui: {
+          ...state.ui,
+          editingQuestionId: null,
+        },
+      };
+    }
 
+    case 'ADD_OPTION_TO_QUESTION': {
+      return state;
+    }
+    case 'UPDATE_OPTION_TEXT': {
+      return state;
+    }
+    case 'DELETE_OPTION_FROM_QUESTION': {
+      return state;
+    }
     default:
       return state;
   }
