@@ -31,9 +31,23 @@ export function QuestionItem({ question }) {
   };
 
   // TODO: Students will add save functionality here
-  const handleSave = () => {
+  const handleSave = (e) => {
     console.log('TODO: Implement save functionality');
     // Hint: Use UPDATE_QUESTION_TEXT action with workingText
+    e.preventDefault();
+    dispatch({
+      type: 'UPDATE_QUESTION_TEXT',
+      payload: {
+        id: question.id,
+        newText: workingText,
+      },
+    });
+    dispatch({
+      type: 'SET_EDITING_QUESTION',
+      payload: {
+        questionId: null,
+      },
+    });
   };
 
   // TODO: Students will add delete functionality here
@@ -79,26 +93,7 @@ export function QuestionItem({ question }) {
               value={workingText}
               onChange={(e) => setWorkingText(e.target.value)}
             />
-            <button
-              type="submit"
-              onClick={(e) => {
-                //setWorkingText(question.question);
-                e.preventDefault();
-                dispatch({
-                  type: 'UPDATE_QUESTION_TEXT',
-                  payload: {
-                    id: question.id,
-                    newText: workingText,
-                  },
-                });
-                dispatch({
-                  type: 'SET_EDITING_QUESTION',
-                  payload: {
-                    questionId: null,
-                  },
-                });
-              }}
-            >
+            <button type="submit" onClick={(e) => handleSave(e)}>
               Save
             </button>
             <button
