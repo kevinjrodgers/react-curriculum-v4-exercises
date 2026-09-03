@@ -41,7 +41,7 @@ export function QuestionItem({ question }) {
       dispatch({
         type: 'DELETE_QUESTION',
         payload: {
-          id: 1,
+          id: question.id,
         },
       });
     }
@@ -59,7 +59,7 @@ export function QuestionItem({ question }) {
             Edit (TODO)
           </button>
           <button className={styles['delete-btn']} onClick={handleDelete}>
-            Delete (TODO)
+            Delete
           </button>
         </div>
       </div>
