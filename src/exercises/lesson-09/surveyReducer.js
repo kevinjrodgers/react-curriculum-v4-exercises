@@ -153,20 +153,26 @@ export function surveyReducer(state, action) {
       const { questionId, optionIndex, newText } = action.payload;
       return {
         ...state,
-        questions: state.questions.map((element) => {
-          if (element.id === questionId) {
+        questions: state.questions.map((question) => {
+          console.log(optionIndex);
+          if (question.id === questionId) {
+            console.log(question);
             return {
-              ...element,
-              options: state.options.map((element) => {
-                if (element.optionIndex === optionIndex) {
-                  element.optionText = newText;
+              ...question,
+              options: question.options.map((option, index) => {
+                if (index === optionIndex) {
+                  console.log('got index');
+                  return {
+                    option: newText,
+                  };
                 } else {
-                  return element;
+                  console.log('never had index');
+                  return option;
                 }
               }),
             };
           } else {
-            return element;
+            return question;
           }
         }),
       };

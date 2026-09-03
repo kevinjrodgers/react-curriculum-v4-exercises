@@ -8,7 +8,6 @@ export function QuestionItem({ question }) {
   //HINT: use these with controlled form
   const [workingText, setWorkingText] = useState(question.question);
   const { dispatch, state } = useContext(SurveyContext);
-  console.log(`Before dispatch is: ${state.ui.editingQuestionId}`);
   // Helper function to convert type to title case
   const formatQuestionType = (type) => {
     return type
@@ -20,7 +19,6 @@ export function QuestionItem({ question }) {
   // TODO: Students will add edit functionality here
   const handleEdit = () => {
     console.log('TODO: Implement edit functionality');
-    console.log(`question.id: ${question.id}`);
     // Hint: Use SET_EDITING_QUESTION action
     dispatch({
       type: 'SET_EDITING_QUESTION',
@@ -106,8 +104,6 @@ export function QuestionItem({ question }) {
                     questionId: null,
                   },
                 });
-                //setWorkingText(originalText);
-                //setIsEditing(false);
               }}
             >
               Cancel
@@ -124,7 +120,32 @@ export function QuestionItem({ question }) {
           <ul>
             {question.options.map((option, index) => (
               <li key={index} className={styles['option-item']}>
-                <span className={styles['option-text']}>{option}</span>
+                {state.ui.editingQuestionId === question.id ? (
+                  <span>
+                    <input
+                      value={workingText}
+                      onChange={(e) => setWorkingText(e.target.value)}
+                    />
+                    <button
+                      onClick={() => {
+                        setWorkingText(option);
+                        dispatch({
+                          type: 'UPDATE_OPTION_TEXT',
+                          payload: {
+                            questionId: question.id,
+                            newText: workingText,
+                            optionIndex: index,
+                          },
+                        });
+                      }}
+                    >
+                      Save
+                    </button>
+                    <button>Delete</button>
+                  </span>
+                ) : (
+                  <span className={styles['option-text']}>{option}</span>
+                )}
               </li>
             ))}
           </ul>
