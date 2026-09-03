@@ -127,13 +127,69 @@ export function surveyReducer(state, action) {
     }
 
     case 'ADD_OPTION_TO_QUESTION': {
-      return state;
+      // TODO: Add new option to specific question
+      console.log('TODO: Implement ADD_OPTION_TO_QUESTION action');
+      const { questionId, optionText } = action.payload;
+      return {
+        ...state,
+        questions: state.questions.map((element) => {
+          if (element.id === questionId) {
+            return {
+              ...element,
+              options: {
+                ...state.options,
+                optionText,
+              },
+            };
+          } else {
+            return element;
+          }
+        }),
+      };
     }
     case 'UPDATE_OPTION_TEXT': {
-      return state;
+      // TODO: Add a new case to handle editing existing options
+      console.log('TODO: Implement UPDATE_OPTION_TEXT action');
+      const { questionId, optionIndex, newText } = action.payload;
+      return {
+        ...state,
+        questions: state.questions.map((element) => {
+          if (element.id === questionId) {
+            return {
+              ...element,
+              options: state.options.map((element) => {
+                if (element.optionIndex === optionIndex) {
+                  element.optionText = newText;
+                } else {
+                  return element;
+                }
+              }),
+            };
+          } else {
+            return element;
+          }
+        }),
+      };
     }
     case 'DELETE_OPTION_FROM_QUESTION': {
-      return state;
+      // TODO: Remove specific option from question
+      console.log('TODO: Implement DELETE_OPTION_FROM_QUESTION action');
+      const { questionId, optionIndex } = action.payload;
+      return {
+        ...state,
+        questions: state.questions.map((element) => {
+          if (element.id === questionId && element.options.length > 1) {
+            return {
+              ...element,
+              options: state.options.filter(
+                (element) => element.optionIndex !== optionIndex
+              ),
+            };
+          } else {
+            return element;
+          }
+        }),
+      };
     }
     default:
       return state;
