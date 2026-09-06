@@ -94,16 +94,109 @@ export function surveyReducer(state, action) {
     // ===== END MVP ACTIONS =========
     // ===== STUDENT IMPLEMENTATION TASKS =====
 
-    case 'UPDATE_QUESTION_TEXT':
+    case 'UPDATE_QUESTION_TEXT': {
       // TODO: Implement this action
       console.log('TODO: Implement UPDATE_QUESTION_TEXT action');
-      return state;
-
-    case 'DELETE_QUESTION':
+      const { id, newText } = action.payload;
+      return {
+        ...state,
+        questions: state.questions.map((element) => {
+          if (element.id === id) {
+            return {
+              ...element,
+              question: newText,
+            };
+          } else {
+            return element;
+          }
+        }),
+      };
+    }
+    case 'DELETE_QUESTION': {
       // TODO: Implement this action
       console.log('TODO: Implement DELETE_QUESTION action');
-      return state;
+      const { id } = action.payload;
+      return {
+        ...state,
+        questions: state.questions.filter((element) => element.id !== id),
+        ui: {
+          ...state.ui,
+          editingQuestionId: null,
+        },
+      };
+    }
 
+    case 'ADD_OPTION_TO_QUESTION': {
+      // TODO: Add new option to specific question
+      console.log('TODO: Implement ADD_OPTION_TO_QUESTION action');
+      const { questionId, optionText } = action.payload;
+      return {
+        ...state,
+        questions: state.questions.map((element) => {
+          if (element.id === questionId) {
+            return {
+              ...element,
+              options: {
+                ...state.options,
+                optionText,
+              },
+            };
+          } else {
+            return element;
+          }
+        }),
+      };
+    }
+    case 'UPDATE_OPTION_TEXT': {
+      // TODO: Add a new case to handle editing existing options
+      console.log('TODO: Implement UPDATE_OPTION_TEXT action');
+      const { questionId, optionIndex, newText } = action.payload;
+      return {
+        ...state,
+        questions: state.questions.map((question) => {
+          console.log(optionIndex);
+          if (question.id === questionId) {
+            console.log(question);
+            return {
+              ...question,
+              options: question.options.map((option, index) => {
+                if (index === optionIndex) {
+                  console.log('got index');
+                  return {
+                    option: newText,
+                  };
+                } else {
+                  console.log('never had index');
+                  return option;
+                }
+              }),
+            };
+          } else {
+            return question;
+          }
+        }),
+      };
+    }
+    case 'DELETE_OPTION_FROM_QUESTION': {
+      // TODO: Remove specific option from question
+      console.log('TODO: Implement DELETE_OPTION_FROM_QUESTION action');
+      const { questionId, optionIndex } = action.payload;
+      return {
+        ...state,
+        questions: state.questions.map((element) => {
+          if (element.id === questionId && element.options.length > 1) {
+            return {
+              ...element,
+              options: state.options.filter(
+                (element) => element.optionIndex !== optionIndex
+              ),
+            };
+          } else {
+            return element;
+          }
+        }),
+      };
+    }
     default:
       return state;
   }
