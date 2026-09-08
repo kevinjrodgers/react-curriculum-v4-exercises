@@ -6,7 +6,8 @@ export default function ProductDetails({ products }) {
 
   return (
     <section>
-      <h2>Product Details</h2>``
+      <h2>Product Details</h2>
+      <p>ID: {id}</p>
       {product ? (
         <div
           style={{ border: '1px solid #ddd', borderRadius: 10, padding: 12 }}
